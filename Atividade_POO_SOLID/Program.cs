@@ -11,10 +11,14 @@ namespace Atividade_POO_SOLID
     {
         static void Main(string[] args)
         {
-            Menu();
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var pessoaServices = serviceProvider.GetService<IPessoaServices>();
+            Menu(pessoaServices);
         }
 
-        private static void Menu()
+        private static void Menu(IPessoaServices pessoaServices)
         {
             Console.Clear();
             Console.WriteLine("Cadastro de Pessoas (Aluno/Funcionário)\r");
@@ -28,57 +32,43 @@ namespace Atividade_POO_SOLID
             switch (Console.ReadLine())
             {
                 case "1":
-                    AdicionarPessoa();
+                    AdicionarPessoa(pessoaServices);
                     break;
                 case "2":
                     Console.WriteLine("############## - Não Implementado - ##############");
-                    Console.WriteLine("Aperte alguma tecla para chamar menu");
-                    Console.ReadLine();
-                    Menu();
                     break;
                 case "3":
-                    Remover();
+                    Remover(pessoaServices);
                     break;
                 case "4":
-                    Listar();
+                    Listar(pessoaServices);
                     Console.WriteLine("Aperte alguma tecla para chamar menu");
                     Console.ReadLine();
-                    Menu();
                     break;
             }
             Console.ReadLine();
         }
 
-        private static void Remover()
+        private static void Remover(IPessoaServices pessoaServices)
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var pessoaRepository = serviceProvider.GetService<IPessoaRepository>();
-
             Console.WriteLine("Informe o Id para remover:");
-            Listar();
+            Listar(pessoaServices);
             int id = int.Parse(Console.ReadLine());
             //REMOVER
-            pessoaRepository.Remover(id);
+            pessoaServices.Remover(id);
             //REMOVER
             Console.WriteLine("------------------------\n");
             Console.WriteLine("Id " + id + " removido com sucesso");
-            Listar();
+            Listar(pessoaServices);
             Console.WriteLine("Aperte alguma tecla para chamar menu");
             Console.ReadLine();
-            Menu();
+            Menu(pessoaServices);
         }
 
-        private static void Listar()
+        private static void Listar(IPessoaServices pessoaServices)
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var pessoaRepository = serviceProvider.GetService<IPessoaRepository>();
-
             //LISTAR
-            var lista = pessoaRepository.Listar();
+            var lista = pessoaServices.Listar();
             //LISTAR
             foreach (var item in lista)
             {
@@ -87,7 +77,7 @@ namespace Atividade_POO_SOLID
             }
         }
 
-        private static void AdicionarPessoa()
+        private static void AdicionarPessoa(IPessoaServices pessoaServices)
         {
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
@@ -101,16 +91,16 @@ namespace Atividade_POO_SOLID
             switch (Console.ReadLine())
             {
                 case "1":
-                    AdicionarAluno(pessoaRepository, new Aluno());//IMPLEMENTAÇÃO
+                    AdicionarAluno(pessoaServices, new Aluno());//IMPLEMENTAÇÃO
                     break;
                 case "2":
-                    AdicionarFuncionario(pessoaRepository, new Funcionario());//IMPLEMENTAÇÃO
+                    AdicionarFuncionario(pessoaServices, new Funcionario());//IMPLEMENTAÇÃO
                     break;
             }
-            Menu();
+            Menu(pessoaServices);
         }
 
-        private static void AdicionarFuncionario(IPessoaRepository pessoaRepository, Funcionario funcionario)
+        private static void AdicionarFuncionario(IPessoaServices pessoaServices, Funcionario funcionario)
         {
             //ADD DADOS PESSOA
             Console.WriteLine("\tInforme os dados pessoais");
@@ -129,16 +119,16 @@ namespace Atividade_POO_SOLID
             //ADD DADOS FUNCIONARIO
 
             //ADD FUNCIONARIO
-            pessoaRepository.Adicionar(funcionario);
+            pessoaServices.Adicionar(funcionario);
 
             Console.WriteLine("Dados cadastrados com sucesso:" +
                 "\nFuncionário:" + funcionario.Nome.ToUpper() +
                 "\ntCargo:" + funcionario.Cargo.ToUpper());
             //ADD FUNCIONARIO
-            Menu();
+            Menu(pessoaServices);
         }
 
-        private static void AdicionarAluno(IPessoaRepository pessoaRepository, Aluno aluno)
+        private static void AdicionarAluno(IPessoaServices pessoaServices, Aluno aluno)
         {
             //ADD DADOS PESSOA
             Console.WriteLine("\tInforme os dados pessoais");
@@ -157,18 +147,18 @@ namespace Atividade_POO_SOLID
             //ADD DADOS ALUNO
 
             //ADD ALUNO
-            pessoaRepository.Adicionar(aluno);
+            pessoaServices.Adicionar(aluno);
             //ADD ALUNO
 
             Console.WriteLine("Dados cadastrados com sucesso:" +
                 "\nAluno:" + aluno.Nome.ToUpper() +
                 "\nCurso:" + aluno.Curso.ToUpper());
-            Menu();
+            Menu(pessoaServices);
         }
 
-        private static void ConfigureServices(IServiceCollection services)//Princípio da inversão da dependência
+        private static void ConfigureServices(IServiceCollection services)//5. DIP - Princípio da inversão da dependência
         {
-            services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddScoped<IPessoaServices, PessoaServices>().AddScoped<IPessoaRepository, PessoaRepository>(); ;
         }
     }
 }
