@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atividade_POO_SOLID", "Atividade_POO_SOLID\Atividade_POO_SOLID.csproj", "{122E079E-CAEE-48BE-80B7-7CA649551B55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{122E079E-CAEE-48BE-80B7-7CA649551B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{122E079E-CAEE-48BE-80B7-7CA649551B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{122E079E-CAEE-48BE-80B7-7CA649551B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{122E079E-CAEE-48BE-80B7-7CA649551B55}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2CA44F8-0B0F-426E-9BEE-422E3F372136}
+	EndGlobalSection
+EndGlobal
