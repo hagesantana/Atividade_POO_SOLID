@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Atividade_POO_SOLID.Interfaces
 {
-    public interface IPessoaRepository//INTERFACE
+    public interface IPessoaRepository//4. ISP - Princípio da Segregação de Interfaces
     {
         void Remover(int id);
         void Adicionar(Pessoa entity);
